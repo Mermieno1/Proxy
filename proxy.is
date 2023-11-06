@@ -7,7 +7,7 @@ const server = http.createServer((req, res) => {
 
   // forward the request to the target server
   const options = {
-    host: 'www.example.com',
+    host: 'www.proxyhecks.com',
     path: req.url,
     headers: req.headers
   };
