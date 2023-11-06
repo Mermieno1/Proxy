@@ -1,0 +1,29 @@
+```
+const http = require('http');
+
+// create a server that listens on port 3000
+const server = http.createServer((req, res) => {
+  console.log(`Received request for ${req.url}`);
+
+  // forward the request to the target server
+  const options = {
+    host: 'www.example.com',
+    path: req.url,
+    headers: req.headers
+  };
+  const proxyReq = http.request(options, (proxyRes) => {
+    console.log(`Received response with status ${proxyRes.statusCode}`);
+
+    // send back the response to the client
+    res.writeHeader(proxyRes.statusCode, proxyRes.headers);
+    proxyRes.pipe(res);
+  });
+
+  // forward the request body, if any
+  req.pipe(proxyReq);
+});
+
+server.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
+```
